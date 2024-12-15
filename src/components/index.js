@@ -4,7 +4,7 @@ import PostCard from "./PostCard";
 import Select from "./Select";
 import Button from "./Button";
 import AuthLayout from "./AuthLayout";
-import Postform from "./PostForm/postform";
+import Postform from "./PostForm/Postform";
 import Input from "./Input";
 import LoginForm from "./LoginForm";
 import RTE from "./RTE";
