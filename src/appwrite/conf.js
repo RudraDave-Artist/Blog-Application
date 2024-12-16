@@ -112,9 +112,9 @@ export class Services{
                 config.appwriteBucketId,
                 fileId
             )
+
         } catch (error) {
             console.log("There is an error while deleting a file",error);
-
         }
     }
 
