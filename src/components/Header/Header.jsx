@@ -8,7 +8,9 @@ import Logo from "../Logo";
 
 function Header() {
     const navigate = useNavigate()
-    const authStatus = useSelector((state) => state.auth.status)    
+    // Trigger redeploy
+    console.log("Redeploying to Vercel...");
+    const authStatus = useSelector((state) => state.auth.status)
     const navItems = [
         {
             name: "Home",
@@ -55,11 +57,11 @@ function Header() {
                             item.active ? (
                                 <li key={item.name}>
                                     <h3>
-                                    <button
-                                        className='inline-bock px-6 py-4 duration-200 hover:bg-blue-100 rounded-full'
-                                        onClick={() => navigate(item.slug)}>
-                                        {item.name}
-                                    </button>
+                                        <button
+                                            className='inline-bock px-6 py-4 duration-200 hover:bg-blue-100 rounded-full'
+                                            onClick={() => navigate(item.slug)}>
+                                            {item.name}
+                                        </button>
                                     </h3>
                                 </li>
                             ) : null)}
@@ -67,7 +69,7 @@ function Header() {
                             authStatus && <li><LogoutBtn /></li>
                         }
                     </ul>
-                    </nav>
+                </nav>
             </Container>
         </header>
     )
