@@ -7,8 +7,7 @@ import { Button } from "../components";
 import parse from "html-react-parser"
 import { removePost } from "../store/post";
 import { Container } from "../components";
-import {decode} from 'he';
-function Post() {
+ function Post() {
 
     const [post, setPost] = useState()
     const { slug } = useParams();
@@ -45,9 +44,7 @@ function Post() {
             }
         })
     }
-    const somePost = {
-        content : "<h1>this is some random post!!</h1>"
-    }
+
     return post ? <div className="py-8">
         <Container>
             <div className="flex flex-wrap lg:flex-nowrap gap-4">
@@ -80,6 +77,9 @@ function Post() {
                     </div>
                     <div className="browser-css">
                         {parse(post.content)}
+                    </div>
+                    <div className="absolute bottom-20 right-20 text-xl text-black-500">
+                        Post By {userData.name}
                     </div>
                 </div>
             </div>
