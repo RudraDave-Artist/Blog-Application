@@ -4,10 +4,13 @@ import { Query } from "appwrite";
 import { useSelector } from "react-redux";
 import { PostCard } from "../components";
 import { Container } from "../components";
+import { useNavigate } from "react-router-dom";
 
 function MyPost() {
+    const navigate = useNavigate() 
     const [posts, setPosts] = useState([])
     const userId = useSelector(state => state.auth.userData)
+    const status = useSelector(state => state.auth.status)
     useEffect(() => {
         console.log(userId);
         services.getPosts([Query.equal("userId", userId.$id)]).then((posts) => {
@@ -16,7 +19,12 @@ function MyPost() {
             }
         }
         )
-    }, [])
+        if (!status) {
+            navigate('/')
+        }
+    }, [status])
+
+
     return (posts.length > 0 ?
         <div className='w-full py-8'>
             <Container>
