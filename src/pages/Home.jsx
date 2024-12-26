@@ -27,6 +27,7 @@ function Home() {
     useEffect(() => {
         services.getPosts().then((post) => {
             if(post.documents.length == 0){
+                dispatch(removeAllPosts())
                 setPosts(null)
             }
         })
