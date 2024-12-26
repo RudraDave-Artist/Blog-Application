@@ -23,6 +23,7 @@ export const postSlice = createSlice({
         },
         removeAllPosts : (state , action) => {
             state.posts.length = 0;
+            state.activePosts.length = 0;
         },
         filterPost : (state , action) => {
             state.activePosts = state.posts.filter((post) => post.status !== 'inactive')
