@@ -22,7 +22,7 @@ function Home() {
     
     useEffect(()=>{ 
         setPosts(currentPosts)
-    },[currentPosts])
+    },[currentPosts , dispatch])
     
     useEffect(() => {
         const changedPosts = services.getPosts().then((post) => post.documents)
