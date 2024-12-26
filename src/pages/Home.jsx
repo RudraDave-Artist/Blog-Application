@@ -20,15 +20,18 @@ function Home() {
     const currentPosts = useSelector((state) => state.post.activePosts)
     console.log(currentPosts);
     
-    useEffect(()=>{ 
-        setPosts(currentPosts)
-    },[currentPosts , dispatch])
+    // useEffect(()=>{ 
+    //     setPosts(currentPosts)
+    // },[currentPosts , dispatch])
     
     useEffect(() => {
         services.getPosts().then((post) => {
             if(post.documents.length == 0){
                 dispatch(removeAllPosts())
                 setPosts(null)
+            } 
+            else{
+                setPosts(posts.documents)
             }
         })
     } ,[])
