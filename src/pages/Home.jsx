@@ -10,19 +10,26 @@ function Home() {
     const [posts, setPosts] = useState([])
     const dispatch = useDispatch()
     const [user , setUser] = useState(false)
-    // dispatch(removeAllPosts())
     const allPosts = useSelector(state => state.post.posts)
     console.log(allPosts);
     useEffect(()=>{
         dispatch(filterPost())
     },[allPosts])
-
+    
     const status = useSelector(state => state.auth.status)
     const currentPosts = useSelector((state) => state.post.activePosts)
     console.log(currentPosts);
-    useEffect(()=>{
+    
+    useEffect(()=>{ 
         setPosts(currentPosts)
     },[currentPosts])
+    
+    useEffect(() => {
+        const changedPosts = services.getPosts().then((post) => post.documents)
+        if(changedPosts.length == 0){
+            dispatch(removeAllPosts())
+        }
+    } ,[])
 
     if (status === false) {
         return (
