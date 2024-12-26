@@ -7,12 +7,7 @@ import {Container} from "../components";
 
 function Allpost() {
     const [posts, setPosts] = useState([])
-    let currentPosts = []
-    useSelector((state) => {
-        currentPosts = state.post.posts.filter((item) => {
-            return item.status !== 'inactive'
-        })
-    })
+    const currentPosts  = useSelector((state) => state.post.activePosts)
     useEffect(() => {
         setPosts(currentPosts)
         // services.getPosts().then((post) => {
@@ -21,6 +16,7 @@ function Allpost() {
         // console.log(post.documents);
         // })
     }, [])
+    
     return (
         <div className='w-full py-8'>
             <Container>

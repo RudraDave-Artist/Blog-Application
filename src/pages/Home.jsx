@@ -25,10 +25,11 @@ function Home() {
     },[currentPosts , dispatch])
     
     useEffect(() => {
-        const changedPosts = services.getPosts().then((post) => post.documents)
-        if(changedPosts.length == 0){
-            dispatch(removeAllPosts())
-        }
+        services.getPosts().then((post) => {
+            if(post.documents.length == 0){
+                setPosts(null)
+            }
+        })
     } ,[])
 
     if (status === false) {
@@ -50,11 +51,11 @@ function Home() {
         <div className='w-full py-8'>
             <Container>
                 <div className='flex flex-wrap'>
-                    {posts.map((post) => (
+                    {posts ? posts.map((post) => (
                         <div key={post.$id} className='p-2 w-1/4'>
                             <PostCard {...post} />
                         </div>
-                    ))}
+                    )) : null}
                 </div>
             </Container>
         </div>
