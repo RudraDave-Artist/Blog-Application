@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 import { addPost, updatePost } from "../../store/post";
 
 function Postform({ post }) {
-
     const { register, control, reset, watch, handleSubmit, setValue, getValues } = useForm({
         defaultValues: {
             title: "",
@@ -27,8 +26,7 @@ function Postform({ post }) {
                 status: post.status || "active",
             });
             setValue("slug", slugTransform(post.title))
-        }
-        
+        } 
     }, [post, reset])
 
     const navigate = useNavigate()
@@ -55,25 +53,21 @@ function Postform({ post }) {
             if (dbPost) {
                 navigate(`/post/${dbPost.$id}`)
             }
-
         }
         else {
-            console.log("here");
-            
-            const file = services.uploadFile(data.image[0])
+            const file = await services.uploadFile(data.image[0])
             console.log(file);
             if (file) {
-                const fileId = await file.then((data) => {
-                    return data.$id
-                })
-                data.featuredImage = fileId
+                // const fileId = file.then((data) => {
+                //     return data.$id
+                // })
+                data.featuredImage = file.$id
                 const dbPost = await services.createPost({
                     ...data,
                     userId: userData.$id
                 })
-                // const userId - 
+                 
                 dispatch(addPost({...dbPost}))  
-                console.log("Post dispatch",{...dbPost});
                 
                 if (dbPost) {
                     // navigate('/')
@@ -82,11 +76,10 @@ function Postform({ post }) {
             }
             else{
                 console.log("You have to add image and title");
-                
             }
         }
     }
-
+ 
     const slugTransform = (value) => {
         if (value && typeof value === "string") {
 
@@ -125,9 +118,6 @@ function Postform({ post }) {
                     placeholder="Slug"
                     className="mb-4"
                     {...register("slug", { required: true })}
-                    // onInput={(e) => {
-                    //     setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
-                    // }}
                     readOnly
                 />
                 <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
