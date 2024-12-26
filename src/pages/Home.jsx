@@ -12,9 +12,9 @@ function Home() {
     const [user , setUser] = useState(false)
     const allPosts = useSelector(state => state.post.posts)
     console.log(allPosts);
-    useEffect(()=>{
-        dispatch(filterPost())
-    },[allPosts])
+    // useEffect(()=>{
+    //     dispatch(filterPost())
+    // },[allPosts])
     
     const status = useSelector(state => state.auth.status)
     const currentPosts = useSelector((state) => state.post.activePosts)
@@ -27,11 +27,13 @@ function Home() {
     useEffect(() => {
         services.getPosts().then((post) => {
             if(post.documents.length == 0){
+                console.log(post.documents , "IN IF");
                 dispatch(removeAllPosts())
                 setPosts(null)
             } 
             else{
-                setPosts(posts.documents)
+                console.log(post.documents , "IN ELSE");
+                setPosts(post.documents)
             }
         })
     } ,[])
