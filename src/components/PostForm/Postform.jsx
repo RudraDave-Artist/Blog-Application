@@ -36,18 +36,18 @@ function Postform({ post }) {
  
     const submit = async (data) => {
         if (post) {
-            const file = data.image[0] ? services.uploadFile(data.image[0]) : null
-            let fileId;
+            const file = data.image[0] ? await services.uploadFile(data.image[0]) : null
+            // let fileId;
             if (file) {
-                fileId = await file.then((data) => {
-                    return data.$id
-                })
+                // fileId = await file.then((data) => {
+                //     return data.$id
+                // })
                 services.deleteFile(post.featuredImage)
             }
 
             const dbPost = await services.updatePost(post.$id, {
                 ...data,
-                featuredImage: file ? fileId : undefined
+                featuredImage: file ? file.$id : undefined
             })
             dispatch(updatePost({id:post.$id , postData : dbPost}))
             if (dbPost) {
