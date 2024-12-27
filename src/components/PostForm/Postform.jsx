@@ -5,15 +5,15 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Select, Input, Button, RTE } from '../index';
 import { useDispatch } from "react-redux";
-import { addPost, updatePost } from "../../store/post";
+import { addPost, filterPost, updatePost } from "../../store/post";
 
 function Postform({ post }) {
     const { register, control, reset, watch, handleSubmit, setValue, getValues } = useForm({
         defaultValues: {
             title: "",
-            content:  "",
+            content: "",
             slug: "",
-            status:  "active",
+            status: "active",
         }
     })
 
@@ -26,14 +26,14 @@ function Postform({ post }) {
                 status: post.status || "active",
             });
             setValue("slug", slugTransform(post.title))
-        } 
+        }
     }, [post, reset])
 
     const navigate = useNavigate()
     const userData = useSelector((state) => state.auth.userData)
-    
+
     const dispatch = useDispatch()
- 
+
     const submit = async (data) => {
         if (post) {
             const file = data.image[0] ? await services.uploadFile(data.image[0]) : null
@@ -49,7 +49,10 @@ function Postform({ post }) {
                 ...data,
                 featuredImage: file ? file.$id : undefined
             })
-            dispatch(updatePost({id:post.$id , postData : dbPost}))
+            
+            dispatch(updatePost({ id: post.$id, postData: dbPost }))
+            dispatch(filterPost())
+
             if (dbPost) {
                 navigate(`/post/${dbPost.$id}`)
             }
@@ -66,20 +69,21 @@ function Postform({ post }) {
                     ...data,
                     userId: userData.$id
                 })
-                 
-                dispatch(addPost({...dbPost}))  
-                
+
+                dispatch(addPost({ ...dbPost }))
+                dispatch(filterPost())
+
                 if (dbPost) {
                     // navigate('/')
                     navigate(`/post/${dbPost.$id}`)
                 }
             }
-            else{
+            else {
                 console.log("You have to add image and title");
             }
         }
     }
- 
+
     const slugTransform = (value) => {
         if (value && typeof value === "string") {
 
@@ -114,7 +118,7 @@ function Postform({ post }) {
                 />
                 <Input
                     label="Slug :"
-                    defaultValue = {getValues("slug")}
+                    defaultValue={getValues("slug")}
                     placeholder="Slug"
                     className="mb-4"
                     {...register("slug", { required: true })}

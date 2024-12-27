@@ -46,6 +46,17 @@ export class Authentication{
         }
     } 
 
+    async getUser(userId){
+        try{
+            return await this.account.get(userId)
+        }
+        catch {
+            console.log("There is an error while fetching a user");
+            return null
+            
+        }
+    }
+
     async logout(){
         try{
             await this.account.deleteSessions()

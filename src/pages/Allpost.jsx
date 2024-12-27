@@ -2,12 +2,21 @@ import React, { useState } from "react";
 import { services } from "../appwrite/conf";
 import { PostCard } from "../components";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {Container} from "../components";
+import { filterPost } from "../store/post";
 
 function Allpost() {
     const [posts, setPosts] = useState([])
+    const allPosts = useSelector((state) => state.post.posts)
+    // const dispatch = useDispatch()
+    // useEffect(()=>{
+    //     dispatch(filterPost())
+    // },[allPosts])
+    
     const currentPosts  = useSelector((state) => state.post.activePosts)
+    console.log(currentPosts);
+    
     useEffect(() => {
         setPosts(currentPosts)
         // services.getPosts().then((post) => {

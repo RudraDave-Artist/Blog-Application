@@ -12,18 +12,15 @@ function Home() {
     const [user , setUser] = useState(false)
     const allPosts = useSelector(state => state.post.posts)
     console.log(allPosts);
-    // useEffect(()=>{
-    //     dispatch(filterPost())
-    // },[allPosts])
-    
     const status = useSelector(state => state.auth.status)
+    
+    useEffect(()=>{
+        dispatch(filterPost())
+    },[allPosts])
+    
     const currentPosts = useSelector((state) => state.post.activePosts)
     console.log(currentPosts);
-    
-    // useEffect(()=>{ 
-    //     setPosts(currentPosts)
-    // },[currentPosts , dispatch])
-    
+
     useEffect(() => {
         services.getPosts().then((post) => {
             if(post.documents.length == 0){
@@ -31,10 +28,16 @@ function Home() {
                 dispatch(removeAllPosts())
                 setPosts(null)
             } 
+            else if(allPosts.length == 0){
+                post.documents.forEach(element => {
+                    dispatch(addPost(element))
+                });
+                setPosts(post.documents)
+            }
             else{
                 console.log(post.documents , "IN ELSE");
                 setPosts(post.documents)
-            }
+            } 
         })
     } ,[])
 

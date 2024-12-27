@@ -7,16 +7,16 @@ import { Button } from "../components";
 import parse from "html-react-parser"
 import { removePost } from "../store/post";
 import { Container } from "../components";
+import { auth } from "../appwrite/auth";
  function Post() {
 
     const [post, setPost] = useState()
+    const [userName , setUserName] = useState()
     const { slug } = useParams();
     const navigate = useNavigate()
 
     const userData = useSelector(state => state.auth.userData)
-    const currentPosts = useSelector((state) => state.post.posts)
-    console.log(currentPosts);
-
+    
     const dispatch = useDispatch()
 
     const isAuthor = post && userData ? post.userId === userData.$id : false
@@ -24,8 +24,9 @@ import { Container } from "../components";
     useEffect(() => {
         if (slug) {
             services.getPost(slug).then((post) => {
-                console.log(post);
-                console.log(post.content);
+                auth.getUser(post.userId).then((user) => {
+                    setUserName(user.name)
+                })
                 if (post) setPost(post)
                 else navigate('/')
             })
@@ -79,7 +80,7 @@ import { Container } from "../components";
                         {parse(post.content)}
                     </div>
                     <div className="absolute bottom-20 right-20 text-xl text-black-500">
-                        Post By {userData.name}
+                        Post By {userName}
                     </div>
                 </div>
             </div>
