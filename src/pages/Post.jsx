@@ -25,9 +25,9 @@ import { user } from "../appwrite/user";
     useEffect(() => {
         if (slug) {
             services.getPost(slug).then((post) => {
-                user.getUser(post.userId).then((user) => {
+                user.getUser(post.userId).then((cus) => {
                     // console.log(user);
-                    setUserName(user.name)
+                    setUserName(cus.name)
                 })
                 if (post) setPost(post)
                 else navigate('/')
