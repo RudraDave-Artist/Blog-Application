@@ -8,6 +8,7 @@ import parse from "html-react-parser"
 import { removePost } from "../store/post";
 import { Container } from "../components";
 import { auth } from "../appwrite/auth";
+import { user } from "../appwrite/user";
  function Post() {
 
     const [post, setPost] = useState()
@@ -24,7 +25,8 @@ import { auth } from "../appwrite/auth";
     useEffect(() => {
         if (slug) {
             services.getPost(slug).then((post) => {
-                auth.getUser(post.userId).then((user) => {
+                user.getUser(post.userId).then((user) => {
+                    // console.log(user);
                     setUserName(user.name)
                 })
                 if (post) setPost(post)

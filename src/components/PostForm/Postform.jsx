@@ -67,7 +67,8 @@ function Postform({ post }) {
                 data.featuredImage = file.$id
                 const dbPost = await services.createPost({
                     ...data,
-                    userId: userData.$id
+                    userId: userData.$id,
+                    userName : userData.name
                 })
 
                 dispatch(addPost({ ...dbPost }))

@@ -10,11 +10,8 @@ export const authSlice = createSlice({
     initialState,
     reducers:{
         login : (state,action) => {
-            console.log("dispatched data ",action.payload.userData);
             state.status = true,
-            state.userData = action.payload.userData
-            console.log("user data is ",state.userData);
-            
+            state.userData = action.payload.userData            
         },
         logout : (state) => {
             state.status = false

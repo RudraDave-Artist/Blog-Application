@@ -24,7 +24,7 @@ function LoginForm() {
             if (session) {
                 const userData = await auth.getCurrentUser()
                 if (userData) {
-                    dispatch(authLogin({userData}))
+                    dispatch(authLogin({userData})) 
                     navigate('/')
                 }
                 else {
