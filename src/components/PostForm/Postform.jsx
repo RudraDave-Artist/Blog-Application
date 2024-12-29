@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { addPost, filterPost, updatePost } from "../../store/post";
 
 function Postform({ post }) {
+
     const { register, control, reset, watch, handleSubmit, setValue, getValues } = useForm({
         defaultValues: {
             title: "",
@@ -39,22 +40,18 @@ function Postform({ post }) {
             const file = data.image[0] ? await services.uploadFile(data.image[0]) : null
             // let fileId;
             if (file) {
-                // fileId = await file.then((data) => {
-                //     return data.$id
-                // })
                 services.deleteFile(post.featuredImage)
-            }
-
-            const dbPost = await services.updatePost(post.$id, {
-                ...data,
-                featuredImage: file ? file.$id : undefined
-            })
-            
-            dispatch(updatePost({ id: post.$id, postData: dbPost }))
-            dispatch(filterPost())
-
-            if (dbPost) {
-                navigate(`/post/${dbPost.$id}`)
+                
+                const dbPost = await services.updatePost(post.$id, {
+                    ...data,
+                    featuredImage: file ? file.$id : undefined
+                })
+                
+                if (dbPost) {
+                    dispatch(updatePost({ id: post.$id, postData: dbPost }))
+                    dispatch(filterPost())
+                    navigate(`/post/${dbPost.$id}`)
+                }
             }
         }
         else {
@@ -67,14 +64,12 @@ function Postform({ post }) {
                 data.featuredImage = file.$id
                 const dbPost = await services.createPost({
                     ...data,
-                    userId: userData.$id,
-                    userName : userData.name
+                    userId: userData.$id
                 })
 
-                dispatch(addPost({ ...dbPost }))
-                dispatch(filterPost())
-
                 if (dbPost) {
+                    dispatch(addPost({ ...dbPost }))
+                    dispatch(filterPost())
                     // navigate('/')
                     navigate(`/post/${dbPost.$id}`)
                 }
@@ -111,7 +106,7 @@ function Postform({ post }) {
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
             <div className="w-2/3 px-2">
                 <Input
-                    label="Title :"
+                    label="Title * :"
                     defaultValue={getValues("title")}
                     placeholder="Title"
                     className="mb-4"
@@ -125,11 +120,11 @@ function Postform({ post }) {
                     {...register("slug", { required: true })}
                     readOnly
                 />
-                <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
+                <RTE label="Content (Max. 255 char)  :" name="content" control={control} defaultValue={getValues("content")} />
             </div>
             <div className="w-1/3 px-2">
                 <Input
-                    label="Featured Image :"
+                    label="Featured Image * :"
                     type="file"
                     className="mb-4"
                     accept="image/png, image/jpg, image/jpeg, image/gif"

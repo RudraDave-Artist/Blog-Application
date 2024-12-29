@@ -8,22 +8,11 @@ import { filterPost } from "../store/post";
 
 function Allpost() {
     const [posts, setPosts] = useState([])
-    const allPosts = useSelector((state) => state.post.posts)
-    // const dispatch = useDispatch()
-    // useEffect(()=>{
-    //     dispatch(filterPost())
-    // },[allPosts])
-    
-    const currentPosts  = useSelector((state) => state.post.activePosts)
+    const currentPosts  = useSelector((state) => state.post.activePosts)    
     console.log(currentPosts);
     
     useEffect(() => {
         setPosts(currentPosts)
-        // services.getPosts().then((post) => {
-        // if(post)
-        // setPosts(post.documents)
-        // console.log(post.documents);
-        // })
     }, [])
     
     return (

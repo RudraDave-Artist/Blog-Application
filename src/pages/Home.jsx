@@ -11,6 +11,8 @@ function Home() {
     const dispatch = useDispatch()
     
     const allPosts = useSelector(state => state.post.posts)
+    console.log(allPosts);
+    
     const status = useSelector(state => state.auth.status)
     
     useEffect(()=>{
@@ -18,7 +20,8 @@ function Home() {
     },[allPosts])
     
     const currentPosts = useSelector((state) => state.post.activePosts)
-
+    console.log(currentPosts);
+    
     useEffect(() => {
         services.getPosts().then((post) => {
             if(post.documents.length == 0){

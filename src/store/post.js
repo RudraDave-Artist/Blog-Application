@@ -10,6 +10,8 @@ export const postSlice = createSlice({
     initialState,
     reducers: {
         addPost: (state, action) => {
+            console.log("post added!!");
+            
             state.posts.push(action.payload)
         },
         removePost: (state, action) => {
