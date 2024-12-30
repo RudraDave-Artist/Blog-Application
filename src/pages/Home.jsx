@@ -28,13 +28,14 @@ function Home() {
                 dispatch(removeAllPosts())
                 setPosts(null)
             } 
-            else if(allPosts.length == 0){
+            else if(allPosts.length !== post.documents.length ){
                 post.documents.forEach(element => {
                     dispatch(addPost(element))
                 });
                 setPosts(post.documents)
             }
             else{
+                console.log(post.documents)      
                 setPosts(post.documents)
             } 
         })
