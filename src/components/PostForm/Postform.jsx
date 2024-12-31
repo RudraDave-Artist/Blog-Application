@@ -38,10 +38,11 @@ function Postform({ post }) {
     const submit = async (data) => {
         if (post) {
             const file = data.image[0] ? await services.uploadFile(data.image[0]) : null
-            // let fileId;
+            
             if (file) {
                 services.deleteFile(post.featuredImage)
                 
+            }
                 const dbPost = await services.updatePost(post.$id, {
                     ...data,
                     featuredImage: file ? file.$id : undefined
@@ -52,7 +53,6 @@ function Postform({ post }) {
                     dispatch(filterPost())
                     navigate(`/post/${dbPost.$id}`)
                 }
-            }
         }
         else {
             const file = await services.uploadFile(data.image[0])

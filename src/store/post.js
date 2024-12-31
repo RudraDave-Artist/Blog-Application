@@ -10,14 +10,14 @@ export const postSlice = createSlice({
     initialState,
     reducers: {
         addPost: (state, action) => {
-            console.log("post added!!");
-            
             state.posts.push(action.payload)
         },
         removePost: (state, action) => {
             state.posts = state.posts.filter((val) => val.$id !== action.payload)
         },
         updatePost: (state, action) => {
+            console.log("post is updating!!");
+            
             const {id , postData} = action.payload
             state.posts = state.posts.map((post) => {
                 return post.$id === id ? postData : post
